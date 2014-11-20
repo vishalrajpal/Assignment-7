@@ -1,0 +1,6 @@
+APPLICATION_NAME=dam
+MAIN_CLASS_NAME=“dam.java”
+javac -d classes source/*.java
+cd classes
+java dam $1 $2 $3 $4
+exit 0
