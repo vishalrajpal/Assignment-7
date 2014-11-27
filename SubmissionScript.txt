@@ -1,0 +1,3 @@
+vrajpal@login:~/classes/cs5500$ /course/cs5500f14/submit rajpal.vi@husky.neu.edu 7 Assignment-7.tgz
+Your assignment has been submitted successfully.
+Your confirmation number is 2e1c6928
