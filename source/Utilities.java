@@ -80,12 +80,14 @@ public abstract class Utilities
          {
             while ((rd = reader.readLine()) != null)
             {
-               System.out.println(rd);
+               //System.out.println(rd);
             }
          } 
          else
          {
-            while ((rd = reader.readLine()) != null){};
+            while ((rd = reader.readLine()) != null){
+            	
+            }
          }
          p.waitFor();
          p.destroy();
