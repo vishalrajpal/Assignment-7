@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -8,9 +9,14 @@ import java.util.ArrayList;
 public abstract class Utilities
 {
    static final boolean DEBUG_MODE_ON = false;
-   static final int BIN_MATCH_COUNT = 435;
-   static final double OVERLAP_RATIO = 31.0 / 32.0;
    static final int BIN_SIZE = 16384;
+   static final double OVERLAP_RATIO = 31.0 / 32.0;
+   //435 * 512 = 222720
+   //222720 / 44100 = 5.05
+   static final int BIN_MATCH_COUNT = 435;
+   
+   
+   
 
    /**
     * getLittleEndian : byte[], int, int -> long
@@ -41,6 +47,16 @@ public abstract class Utilities
       return val;
    }
 
+   static long convertBytesToLong(byte[] arr, int shift, byte individualMask)
+   {
+	   	long val = 0;
+	   	int len = arr.length;
+   		for (int i = 0; i < len; i++) 
+   		{
+   			val = (val << shift) + (arr[i] & individualMask);
+   		}
+   		return val;
+   }
    /**
     * printMatchAndExit : String String double double -> void
     * 
@@ -80,14 +96,12 @@ public abstract class Utilities
          {
             while ((rd = reader.readLine()) != null)
             {
-               //System.out.println(rd);
+               System.out.println(rd);
             }
          } 
          else
          {
-            while ((rd = reader.readLine()) != null){
-            	
-            }
+            while ((rd = reader.readLine()) != null){};
          }
          p.waitFor();
          p.destroy();

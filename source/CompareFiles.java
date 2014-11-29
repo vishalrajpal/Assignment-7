@@ -1,3 +1,4 @@
+
 import java.io.File;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -24,13 +25,14 @@ public class CompareFiles
    private final String TEMP_DIR_1_PATH = "/tmp/TempDir1";
    private final String TEMP_DIR_2_PATH = "/tmp/TempDir2";
    
+   
    /**
 	* CompareFiles: String[] -> void
 	* @param args : the command line arguments
 	* @effect: Processes the path provided in the command line, if valid and
 	* prints the appropriate message.
 	*/
-   CompareFiles(String[] args)
+   public CompareFiles(String[] args)
    {
 	  File[] firstPathFiles;
 	  File[] secondPathFiles;
@@ -125,13 +127,13 @@ public class CompareFiles
 	  {
 	     File currentFile = firstPathNameFiles[path1Count];
 		 AudioProcessableFile path1File = 
-				 getDirOneProcessableFile(currentFile, tmpDir1FilePath);
+				 getProcessableFile(currentFile, tmpDir1FilePath,filesProcessedPath1);
 		 if(path1File==null) continue;
 		 for(int path2Count=0; path2Count<NoOfFilesInPath2;path2Count++)
 		 {
 		    File currentSecondFile = secondPathNameFiles[path2Count];
 			AudioProcessableFile path2File = 
-					getProcessableFile2(currentSecondFile, tmpDir2FilePath);
+					getProcessableFile(currentSecondFile, tmpDir2FilePath, filesProcessedPath2);
 			if(path2File==null) continue;
 			if(Utilities.DEBUG_MODE_ON)
 			{
@@ -155,41 +157,24 @@ public class CompareFiles
       AssertTests.exitWithValidStatus();
    }
 	 
-   /**
-	* getProcessableFile: String -> AudioProcessableFile
-	* @param filePath: Place where the required file is stored
-	* @return: AudioProcessibleFile of the given file, also the file 
-	* is added to the HashMap.
-	*/
-   private AudioProcessableFile getDirOneProcessableFile 
-   (File fileToProcess, String tmpDirPath)
+   private AudioProcessableFile getProcessableFile 
+   (File fileToProcess, String tmpDirPath, Map<String, AudioProcessableFile> dirMap)
    {
       AudioProcessableFile f = 
-    		  filesProcessedPath1.get(fileToProcess.getPath());
+    		  dirMap.get(fileToProcess.getPath());
 	  if(f == null)
 	  {
 	     f = AudioProcessableFiles.make(fileToProcess, tmpDirPath);
-	     filesProcessedPath1.put(fileToProcess.getPath(), f);
+	     dirMap.put(fileToProcess.getPath(), f);
 	  }
 	  return f;
    }
    
    /**
-    * getProcessableFile2 : File, String -> AudioProcessableFile
-    * @param fileToProcess : File required to be processed
-    * @param tmpDirPath : Place where the file is stored 
-    * @return: AudioProcessibleFile of the given file, also the file 
-	* is added to the HashMap.
-    */
-   private AudioProcessableFile getProcessableFile2
-   (File fileToProcess, String tmpDirPath)
-   {
-	  AudioProcessableFile f = filesProcessedPath2.get(fileToProcess.getPath());
-	  if(f == null)
-	  {
-	     f = AudioProcessableFiles.make(fileToProcess, tmpDirPath);
-		 filesProcessedPath2.put(fileToProcess.getPath(), f);
-      }
-	  return f;
-   }
+	* getProcessableFile: String -> AudioProcessableFile
+	* @param filePath: Place where the required file is stored
+	* @return: AudioProcessibleFile of the given file, also the file 
+	* is added to the HashMap. // Memoization
+	*/
+
 }

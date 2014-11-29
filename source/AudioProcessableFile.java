@@ -1,3 +1,4 @@
+
 import java.io.FileInputStream;
 import java.util.ArrayList;
 
@@ -9,7 +10,7 @@ public interface AudioProcessableFile
     * @effect: Validates the file to check if it is one of the supported 
     * formats
     */
-   boolean validateFile();
+   void validateFile();
 
    /**
     * compare : AudioProcessableFile -> void
@@ -68,4 +69,6 @@ public interface AudioProcessableFile
     * an ArrayList
     */
    ArrayList<Double> getMagnitudes();
+   
+   AudioProcessableFile getWAVAudioProcessableFile();
 }

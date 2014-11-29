@@ -1,3 +1,4 @@
+
 public class AssertTests 
 {
    //Initially exitStatus is 0, if any error occurs this will chage to 1.
