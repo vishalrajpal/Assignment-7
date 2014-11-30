@@ -8,9 +8,9 @@ public abstract class AudioProcessableFiles
 {
    private final static String WAV_CONVERTER_PATH =
          "/course/cs5500f14/bin/wav";
-   private final static String LAME_CONVERTER_PATH = "/usr/local/bin/lame";
-         //"/course/cs5500f14/bin/lame";
-   private final static String OGG_CONVERTER_PATH = "/usr/local/bin/oggdec";
+   private final static String LAME_CONVERTER_PATH = //“/usr/local/bin/lame";
+         "/course/cs5500f14/bin/lame";
+   private final static String OGG_CONVERTER_PATH = "/usr/bin/oggdec";
 
    /**
     * make : File, String -> AudioProcessableFile
