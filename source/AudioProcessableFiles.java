@@ -8,15 +8,16 @@ public abstract class AudioProcessableFiles
 {
    private final static String WAV_CONVERTER_PATH =
          "/course/cs5500f14/bin/wav";
-   private final static String LAME_CONVERTER_PATH = //“/usr/local/bin/lame";
-         "/course/cs5500f14/bin/lame";
+   private final static String LAME_CONVERTER_PATH = //"/usr/local/bin/lame";
+   "/course/cs5500f14/bin/lame";
    private final static String OGG_CONVERTER_PATH = "/usr/bin/oggdec";
 
    /**
     * make : File, String -> AudioProcessableFile
     * 
     * @param fileToProcess
-    *           : The File to process and this File will be ready for comparison
+    *           : The File to process and this File will be ready for
+    *           comparison
     * @param tmpDirPath
     *           : The temperory directory path if needed to modify this file
     *           though either wav or lame converter
@@ -42,7 +43,8 @@ public abstract class AudioProcessableFiles
     * getAudioProcessableFile : File, String -> AudioProcessableFile
     * 
     * @param fileToProcess
-    *           : The File to process and this File will be ready for comparison
+    *           : The File to process and this File will be ready for
+    *           comparison
     * @param tmpDirPath
     *           : The temperory directory path if needed to modify this file
     *           though eith wav or lame converter
@@ -52,7 +54,7 @@ public abstract class AudioProcessableFiles
    public static AudioProcessableFile getAudioProcessableFile(
          File fileToProcess, String tmpDirPath)
    {
-      AudioProcessableFile fileToReturn = null;
+      // AudioProcessableFile fileToReturn = null;
       String filePath = fileToProcess.getPath();
       String modFilePath = filePath.toLowerCase();
       AudioProcessableFile processableFile = null;
@@ -82,15 +84,10 @@ public abstract class AudioProcessableFiles
       }
       else
       {
-         String exString = "File Format not found : " + filePath;
-         AssertTests.assertTrue(exString, false);
+         processableFile = new OtherFormatsProcessableFile(fileToProcess);
       }
 
-      if (processableFile != null && processableFile.isValidFile())
-      {
-         fileToReturn = processableFile;
-      }
-      return fileToReturn;
+      return processableFile;
    }
 
    /** Implementation of AudioProcessableFile ADT */
@@ -196,7 +193,8 @@ public abstract class AudioProcessableFiles
        * @param filePath
        *           : The file path for which an AudioProcessableFile has to be
        *           created
-       * @effect : The constructor implicitly returns an instance of type Create
+       * @effect : The constructor implicitly returns an instance of type
+       *         Create
        */
       WAVAudioProcessableFile(File fileToProcess, String tmpDirPath,
             String fileName)
@@ -224,12 +222,12 @@ public abstract class AudioProcessableFiles
 
       /* @see AudioProcessableFiles.AudioProcessableBase#validateFile() */
       /**
-       * Header Format: Offset Name 0 'RIFF' 4 Chunk Size (Skipping) 8 'WAVE' 12
-       * 'fmt ' 16 Chunk Size (Skipping) 20 AudioFormat (Should be PCM = 1) 22
-       * Number of Channels (MONO | STEREO = 1 | 2) 24 Sample Rate (Should be
-       * 11025 | 22050 | 44100 | 48000 28 Byte Rate (Skipping) 32 Block Align
-       * (Skipping) 34 Bits per sample 36 'data' 40 Chunk Size (Size of the
-       * sound data) 44 Sound data
+       * Header Format: Offset Name 0 'RIFF' 4 Chunk Size (Skipping) 8 'WAVE'
+       * 12 'fmt ' 16 Chunk Size (Skipping) 20 AudioFormat (Should be PCM = 1)
+       * 22 Number of Channels (MONO | STEREO = 1 | 2) 24 Sample Rate (Should
+       * be 11025 | 22050 | 44100 | 48000 28 Byte Rate (Skipping) 32 Block
+       * Align (Skipping) 34 Bits per sample 36 'data' 40 Chunk Size (Size of
+       * the sound data) 44 Sound data
        */
       public void validateFile()
       {
@@ -327,9 +325,11 @@ public abstract class AudioProcessableFiles
                   fileName + " There should be 8 or 16 bits/sample";
             bitsPerSample =
                   (int) Utilities.getLittleEndian(arrayFor2Bytes, 0, 2);
-            isValidFile = AssertTests.assertTrue(bitError,
-                              (bitsPerSample == BITS_PER_SAMPLE_8 || 
-                              bitsPerSample == BITS_PER_SAMPLE_16));
+            isValidFile =
+                  AssertTests
+                        .assertTrue(
+                              bitError,
+                              (bitsPerSample == BITS_PER_SAMPLE_8 || bitsPerSample == BITS_PER_SAMPLE_16));
 
             if (!isValidFile)
                return;
@@ -430,8 +430,8 @@ public abstract class AudioProcessableFiles
        * 
        * @effect: Determines the length of longest common matching indexes, of
        *          the bin magnitudes, also determines the time of the starting
-       *          bin, if the length of the longext common sequence is more than
-       *          435 (5 seconds), prints MATCH.
+       *          bin, if the length of the longext common sequence is more
+       *          than 435 (5 seconds), prints MATCH.
        * 
        */
       private void compareLongestSubString(ArrayList<Double> magnitudes1,
@@ -453,7 +453,14 @@ public abstract class AudioProcessableFiles
             double list1CurrentMag = magnitudes1.get(i - 1);
             for (int j = 1; j <= lenOfStr2; j++)
             {
-               if (Math.abs(list1CurrentMag - magnitudes2.get(j - 1)) < epsilon)
+               double list2CurrentMag = magnitudes2.get(j - 1);
+               if (list1CurrentMag == 0.0 || list2CurrentMag == 0.0)
+               {
+                  currRow[j] = 0;
+                  continue;// silence
+               }
+
+               if (Math.abs(list1CurrentMag - list2CurrentMag) < epsilon)
                {
                   int curVal = 1 + prevRow[j - 1];
                   currRow[j] = curVal;
@@ -523,13 +530,13 @@ public abstract class AudioProcessableFiles
       /**
        * ID3 Header Format
        * 
-       * Offset | Meaning | (in bytes) | | 0 | ID3 | Read 3 | ID3 Version | Skip
-       * 5 | ID3 Flags | Read 6 | ID3 size | Read
+       * Offset | Meaning | (in bytes) | | 0 | ID3 | Read 3 | ID3 Version |
+       * Skip 5 | ID3 Flags | Read 6 | ID3 size | Read
        * 
        * MP3 Header Format
        * 
-       * Offset | Meaning | (in bits) | | 0 | Sync Word | Skip 12 | MP3 Version1
-       * | Read 13 | Layer III | Read
+       * Offset | Meaning | (in bits) | | 0 | Sync Word | Skip 12 | MP3
+       * Version1 | Read 13 | Layer III | Read
        */
       public void validateFile()
       {
@@ -741,5 +748,60 @@ public abstract class AudioProcessableFiles
                "16", "-o", newFilePath);
          return new File(newFilePath);
       }
+   }
+
+   private static class OtherFormatsProcessableFile extends
+         AudioProcessableBase
+   {
+      OtherFormatsProcessableFile(File fileToProcess)
+      {
+         this.fileName = fileToProcess.getName();
+         validateFile();
+      }
+
+      @Override
+      public void validateFile()
+      {
+         // TODO Auto-generated method stub
+         isValidFile = false;
+         String exString = "File Format not found : " + fileName;
+         AssertTests.assertTrue(exString, false);
+      }
+
+      @Override
+      public void compare(AudioProcessableFile ap)
+      {
+         // TODO Auto-generated method stub
+
+      }
+
+      @Override
+      public String getFileShortName()
+      {
+         // TODO Auto-generated method stub
+         return null;
+      }
+
+      @Override
+      public double getDuration()
+      {
+         // TODO Auto-generated method stub
+         return 0;
+      }
+
+      @Override
+      public ArrayList<Double> getMagnitudes()
+      {
+         // TODO Auto-generated method stub
+         return null;
+      }
+
+      @Override
+      public AudioProcessableFile getWAVAudioProcessableFile()
+      {
+         // TODO Auto-generated method stub
+         return null;
+      }
+
    }
 }

@@ -1,6 +1,6 @@
 public class AssertTests
 {
-   // Initially exitStatus is 0, if any error occurs this will chage to 1.
+   // Initially exitStatus is 0, if any error occurs this will change to 1.
    private static int exitStatus = 0;
 
    /**
@@ -17,7 +17,7 @@ public class AssertTests
    {
       if (!isTrue)
       {
-         exitStatus = 1;
+         exitStatus = -1;
          System.err.println("ERROR: " + errorMsg);
          return false;
       }
@@ -43,7 +43,8 @@ public class AssertTests
       assertTrue(errorMsg, isTrue);
       if (!isTrue && toExit)
       {
-         System.exit(1);
+         exitStatus = -1;
+         exitWithValidStatus();
       }
       return isTrue;
    }
@@ -54,6 +55,7 @@ public class AssertTests
     */
    public static void exitWithValidStatus()
    {
+      System.out.println(exitStatus);
       System.exit(exitStatus);
    }
 }

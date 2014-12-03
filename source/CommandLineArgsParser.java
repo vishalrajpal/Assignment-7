@@ -35,8 +35,9 @@ public class CommandLineArgsParser
             String patternArg = splitPattern[argCounter];
             if (patternArg.charAt(0) == '-')
             {
-               ArrayList<String> allowedParams = new ArrayList<String>(
-                     Arrays.asList(patternArg.split("\\|")));
+               ArrayList<String> allowedParams =
+                     new ArrayList<String>(Arrays.asList(patternArg
+                           .split("\\|")));
 
                if (!allowedParams.contains(currentArg))
                {
@@ -141,7 +142,8 @@ public class CommandLineArgsParser
             dirOfFiles = new File(path);
             if (!dirOfFiles.isDirectory())
             {
-               AssertTests.assertTrue(path + ":Invalid Directory", false, true);
+               AssertTests
+                     .assertTrue(path + ":Invalid Directory", false, true);
                return null;
             }
             listOfFiles = dirOfFiles.listFiles();
@@ -158,7 +160,8 @@ public class CommandLineArgsParser
        * compareAllFiles: File[] File[] -> void
        * 
        * @param: firstPathNameFiles, files corresponding to the first pathname
-       * @param: secondPathNameFiles, files corresponding to the second pathname
+       * @param: secondPathNameFiles, files corresponding to the second
+       *         pathname
        * @effect: Converts the files to AudioProcessableFile type and compares
        *          each AudioProcessableFile obtained from the first path with
        *          each AudioProcessableFile obtained from the second path.
@@ -173,21 +176,23 @@ public class CommandLineArgsParser
          for (int path1Count = 0; path1Count < NoOfFilesInPath1; path1Count++)
          {
             File currentFile = firstPathNameFiles[path1Count];
-            AudioProcessableFile path1File = getProcessableFile(currentFile,
-                  tmpDir1FilePath, filesProcessedPath1);
-            if (path1File == null)
+            AudioProcessableFile path1File =
+                  getProcessableFile(currentFile, tmpDir1FilePath,
+                        filesProcessedPath1);
+            if (!path1File.isValidFile())
                continue;
             for (int path2Count = 0; path2Count < NoOfFilesInPath2; path2Count++)
             {
                File currentSecondFile = secondPathNameFiles[path2Count];
-               AudioProcessableFile path2File = getProcessableFile(
-                     currentSecondFile, tmpDir2FilePath, filesProcessedPath2);
-               if (path2File == null)
+               AudioProcessableFile path2File =
+                     getProcessableFile(currentSecondFile, tmpDir2FilePath,
+                           filesProcessedPath2);
+               if (!path2File.isValidFile())
                   continue;
                if (Utilities.DEBUG_MODE_ON)
                {
-                  System.out.println("Compare:" + currentFile.getName() + " & "
-                        + currentSecondFile.getName());
+                  System.out.println("Compare:" + currentFile.getName()
+                        + " & " + currentSecondFile.getName());
                   Calendar rightNow = Calendar.getInstance();
                   System.out.println(rightNow.get(Calendar.MINUTE) + ":"
                         + rightNow.get(Calendar.SECOND));
@@ -211,8 +216,8 @@ public class CommandLineArgsParser
        * 
        * @param filePath
        *           : Place where the required file is stored
-       * @return: AudioProcessibleFile of the given file, also the file is added
-       *          to the HashMap. // Memoization
+       * @return: AudioProcessibleFile of the given file, also the file is
+       *          added to the HashMap. // Memoization
        */
       private AudioProcessableFile getProcessableFile(File fileToProcess,
             String tmpDirPath, Map<String, AudioProcessableFile> dirMap)

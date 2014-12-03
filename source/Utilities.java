@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public abstract class Utilities
 {
-   static final boolean DEBUG_MODE_ON = true;
+   static final boolean DEBUG_MODE_ON = false;
    static final int BIN_SIZE = 16384;
    static final double OVERLAP_RATIO = 31.0 / 32.0;
    // 435 * 512 = 222720
@@ -108,12 +108,15 @@ public abstract class Utilities
          {
             while ((rd = reader.readLine()) != null)
             {
-               //System.out.println(rd);
+               // System.out.println(rd);
             }
          }
          else
          {
-            while ((rd = reader.readLine()) != null){};
+            while ((rd = reader.readLine()) != null)
+            {
+            }
+            ;
          }
          p.waitFor();
          p.destroy();

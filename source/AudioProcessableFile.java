@@ -6,7 +6,8 @@ public interface AudioProcessableFile
    /**
     * validateFile: -> void
     * 
-    * @effect: Validates the file to check if it is one of the supported formats
+    * @effect: Validates the file to check if it is one of the supported
+    *          formats
     */
    void validateFile();
 
@@ -54,8 +55,8 @@ public interface AudioProcessableFile
    /**
     * getFileInputStream : -> FileInputStream
     * 
-    * @return long : returns the FileInputStream for the File represented by the
-    *         implementation of this interface
+    * @return long : returns the FileInputStream for the File represented by
+    *         the implementation of this interface
     */
    FileInputStream getFileInputStream();
 

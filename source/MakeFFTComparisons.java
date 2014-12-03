@@ -16,8 +16,8 @@ public class MakeFFTComparisons
     * 
     * @param n
     *           : The number of cos and sin values needed
-    * @effect: If cos and sin are not yet initialized or need to be updated they
-    *          get initialized/updated else there is no change
+    * @effect: If cos and sin are not yet initialized or need to be updated
+    *          they get initialized/updated else there is no change
     */
    private static void computeCosSinTables(int n)
    {
@@ -115,8 +115,8 @@ public class MakeFFTComparisons
     * @param magnitudes
     *           : The peak magnitude of FFT values of this set of samples will
     *           be added to magnitudes
-    * @effect: Applies Hanning Window to 'samples' and Calculates the FFT values
-    *          for windowed samples and adds the peak of this set to
+    * @effect: Applies Hanning Window to 'samples' and Calculates the FFT
+    *          values for windowed samples and adds the peak of this set to
     *          'magnitudes'
     */
    private void getLimitedFFTSamples(ArrayList<Double> samples,
@@ -135,7 +135,11 @@ public class MakeFFTComparisons
       this.m = (int) (Math.log(n) / Math.log(2));
       double imagArray[] = new double[windowedSamples.length];
       fft(windowedSamples, imagArray);
-      magnitudes.add(Math.log(max_magnitude));
+      if (max_magnitude > 0)
+         max_magnitude = Math.log(max_magnitude);
+      else
+         max_magnitude = 0.0;
+      magnitudes.add(max_magnitude);
    }
 
    /**
@@ -166,8 +170,8 @@ public class MakeFFTComparisons
     * getNearestPowerOfTwo : int -> int
     * 
     * @param n
-    *           : The int to which the nearest power of 2 greater than 'n' is to
-    *           be calculated
+    *           : The int to which the nearest power of 2 greater than 'n' is
+    *           to be calculated
     * @return int : The nearest power of 2 greater than 'n'.
     */
    private static int getNearestPowerOfTwo(int n)
@@ -188,8 +192,8 @@ public class MakeFFTComparisons
     * @param originalArray
     *           : The array which might not be filled till 'nearestPowerOfTwo'
     * @param nearestPowerOfTwo
-    *           : The length of the new array to be returned which is a power of
-    *           two and nearest to length of 'originalArray'
+    *           : The length of the new array to be returned which is a power
+    *           of two and nearest to length of 'originalArray'
     * @return double[] : The array with length of 'nearestPowerOfTwo' with its
     *         initial values being same as 'originalArray' and the leftover
     *         values being 0.
