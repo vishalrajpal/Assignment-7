@@ -55,7 +55,6 @@ public class AssertTests
     */
    public static void exitWithValidStatus()
    {
-      System.out.println(exitStatus);
       System.exit(exitStatus);
    }
 }
