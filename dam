@@ -1,6 +1,14 @@
 APPLICATION_NAME=dam
-MAIN_CLASS_NAME=“dam.java”
-javac -d classes source/*.java
-cd classes
-java dam $1 $2 $3 $4
-exit 0
+parentPath=$(readlink -f $(dirname ${BASH_SOURCE[0]})) 
+classesPath="$parentPath/classes"
+
+if [ ! -f $classesPath/dam.class ]
+then
+   sourcePath="$parentPath/source"
+   javac -d $classesPath $sourcePath/*.java
+fi
+
+cd $classesPath
+java $APPLICATION_NAME $1 $2 $3 $4
+STATUS="${?}"
+exit ${STATUS}
